@@ -146,8 +146,8 @@ public class RiskCalculator {
      * 
      * Classificação:
      * - BAIXO: < 1.20 (até 20% acima do prêmio base)
-     * - MÉDIO: 1.20 - 1.80
-     * - ALTO: > 1.80
+     * - MÉDIO: >= 1.20 e < 1.80
+     * - ALTO: >= 1.80
      */
     public String getRiskProfile(BigDecimal totalMultiplier) {
         if (totalMultiplier.compareTo(new BigDecimal("1.20")) < 0) {

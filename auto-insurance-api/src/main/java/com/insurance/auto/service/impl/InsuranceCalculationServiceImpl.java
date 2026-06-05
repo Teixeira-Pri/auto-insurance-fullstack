@@ -127,7 +127,7 @@ public class InsuranceCalculationServiceImpl implements InsuranceCalculationServ
 
             return CalculationResponseDTO.builder()
                 .quoteId(UUID.randomUUID().toString())
-                .calculatedAt(LocalDateTime.now())
+                .calculatedAt(LocalDateTime.now(clock))
                 .basePremium(basePremium)
                 .totalPremium(totalPremium)
                 .monthlyPremium(monthlyPremium)
