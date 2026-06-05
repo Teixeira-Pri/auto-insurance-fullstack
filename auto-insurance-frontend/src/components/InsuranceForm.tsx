@@ -332,7 +332,7 @@ export default function InsuranceForm() {
                     type="number"
                     {...register('vehicleManufacturingYear', {
                       required: 'Ano de fabricação é obrigatório',
-                      min: { value: 1950, message: 'Mínimo: 1950' },
+                      min: { value: 1980, message: 'Mínimo: 1980' },
                       max: { value: 2026, message: 'Máximo: 2026' },
                       valueAsNumber: true
                     })}
@@ -381,8 +381,6 @@ export default function InsuranceForm() {
                     <option value="DIESEL">Diesel</option>
                     <option value="ELECTRIC">Elétrico</option>
                     <option value="HYBRID">Híbrido</option>
-                    <option value="PLUGIN_HYBRID">Híbrido Plug-in</option>
-                    <option value="CNG">GNV</option>
                   </select>
                   {errors.vehicleFuelType && (
                     <p className="mt-1 text-sm text-red-600">{errors.vehicleFuelType.message}</p>
@@ -403,9 +401,8 @@ export default function InsuranceForm() {
                     <option value="SEDAN">Sedan</option>
                     <option value="SUV">SUV/Crossover</option>
                     <option value="PICKUP">Picape</option>
-                    <option value="VAN">Van/Minivan</option>
-                    <option value="LUXURY">Luxo/Premium</option>
-                    <option value="SPORTS">Esportivo</option>
+                    <option value="MINIVAN">Van/Minivan</option>
+                    <option value="SPORT">Esportivo</option>
                     <option value="MOTORCYCLE">Motocicleta</option>
                     <option value="TRUCK">Caminhão</option>
                   </select>
@@ -425,10 +422,9 @@ export default function InsuranceForm() {
                   >
                     <option value="">Selecione</option>
                     <option value="NEW">0 km / Novo</option>
-                    <option value="EXCELLENT">Excelente (1-2 anos)</option>
-                    <option value="GOOD">Bom (3-5 anos)</option>
-                    <option value="FAIR">Regular (6-10 anos)</option>
-                    <option value="POOR">Precário (10+ anos)</option>
+                    <option value="GOOD">Bom</option>
+                    <option value="FAIR">Regular</option>
+                    <option value="POOR">Precário</option>
                   </select>
                   {errors.vehicleCondition && (
                     <p className="mt-1 text-sm text-red-600">{errors.vehicleCondition.message}</p>

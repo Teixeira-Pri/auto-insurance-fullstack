@@ -43,32 +43,28 @@ export interface CalculationResponse {
 
 export type Gender = 'MALE' | 'FEMALE' | 'OTHER' | 'PREFER_NOT_TO_SAY';
 
-export type FuelType = 
-  | 'GASOLINE' 
-  | 'ETHANOL' 
-  | 'FLEX' 
-  | 'DIESEL' 
-  | 'ELECTRIC' 
-  | 'HYBRID' 
-  | 'PLUGIN_HYBRID' 
-  | 'CNG';
+export type FuelType =
+  | 'GASOLINE'
+  | 'ETHANOL'
+  | 'FLEX'
+  | 'DIESEL'
+  | 'ELECTRIC'
+  | 'HYBRID';
 
-export type VehicleCategory = 
-  | 'COMPACT' 
-  | 'SEDAN' 
-  | 'SUV' 
-  | 'PICKUP' 
-  | 'LUXURY' 
-  | 'SPORTS' 
-  | 'VAN' 
-  | 'MOTORCYCLE' 
+export type VehicleCategory =
+  | 'COMPACT'
+  | 'SEDAN'
+  | 'SUV'
+  | 'PICKUP'
+  | 'MINIVAN'
+  | 'SPORT'
+  | 'MOTORCYCLE'
   | 'TRUCK';
 
-export type VehicleCondition = 
-  | 'NEW' 
-  | 'EXCELLENT' 
-  | 'GOOD' 
-  | 'FAIR' 
+export type VehicleCondition =
+  | 'NEW'
+  | 'GOOD'
+  | 'FAIR'
   | 'POOR';
 
 export type RiskProfile = 'BAIXO' | 'MÉDIO' | 'ALTO';
