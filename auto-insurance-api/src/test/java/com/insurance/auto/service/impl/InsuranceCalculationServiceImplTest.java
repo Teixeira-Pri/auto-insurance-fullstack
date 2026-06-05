@@ -43,7 +43,7 @@ class InsuranceCalculationServiceImplTest {
     void setUp() {
         RiskCalculator riskCalculator = new RiskCalculator(FIXED_CLOCK);
         service = new InsuranceCalculationServiceImpl(
-                viaCepClient, riskCalculator, new SimpleMeterRegistry()
+                viaCepClient, riskCalculator, FIXED_CLOCK, new SimpleMeterRegistry()
         );
     }
 

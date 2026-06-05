@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Clock;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.LinkedHashMap;
@@ -38,21 +40,24 @@ public class InsuranceCalculationServiceImpl implements InsuranceCalculationServ
 
     private final ViaCepClient viaCepClient;
     private final RiskCalculator riskCalculator;
-    
+    private final Clock clock;
+
     // Métricas customizadas
     private final Counter calculationsCounter;
     private final Counter viaCepFailuresCounter;
     private final Timer calculationTimer;
-    
+
     private static final BigDecimal DEFAULT_STATE_MULTIPLIER = BigDecimal.ONE;
 
     public InsuranceCalculationServiceImpl(
             ViaCepClient viaCepClient,
             RiskCalculator riskCalculator,
+            Clock clock,
             MeterRegistry meterRegistry) {
-        
+
         this.viaCepClient = viaCepClient;
         this.riskCalculator = riskCalculator;
+        this.clock = clock;
         
         // Registra métricas customizadas
         this.calculationsCounter = Counter.builder("insurance.calculations.total")
@@ -114,8 +119,9 @@ public class InsuranceCalculationServiceImpl implements InsuranceCalculationServ
                 request.getVehicleModelYear()
             );
 
-            int driverAge = Period.between(request.getDriverBirthDate(), java.time.LocalDate.now()).getYears();
-            int drivingExperience = Period.between(request.getDriverLicenseIssueDate(), java.time.LocalDate.now()).getYears();
+            LocalDate today = LocalDate.now(clock);
+            int driverAge = Period.between(request.getDriverBirthDate(), today).getYears();
+            int drivingExperience = Period.between(request.getDriverLicenseIssueDate(), today).getYears();
 
             log.info("Cálculo concluído. Prêmio total: R$ {} | Perfil: {}", totalPremium, riskProfile);
 

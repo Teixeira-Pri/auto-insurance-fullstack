@@ -2,6 +2,7 @@ package com.insurance.auto.client;
 
 import com.insurance.auto.dto.viacep.ViaCepResponse;
 import com.insurance.auto.exception.ViaCepException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
@@ -9,16 +10,13 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class ViaCepClient {
 
     private static final String VIACEP_URL = "https://viacep.com.br/ws/{cep}/json/";
 
     private final RestTemplate restTemplate;
-
-    public ViaCepClient() {
-        this.restTemplate = new RestTemplate();
-    }
 
     @Cacheable(value = "viacep", key = "#zipCode")
     public ViaCepResponse getAddressByZipCode(String zipCode) {
