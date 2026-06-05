@@ -72,7 +72,7 @@ export type RiskProfile = 'BAIXO' | 'MÉDIO' | 'ALTO';
 export interface ValidationError {
   field: string;
   message: string;
-  rejectedValue: any;
+  rejectedValue: unknown;
 }
 
 export interface ApiError {

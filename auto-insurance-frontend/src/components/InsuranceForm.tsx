@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import type { InputHTMLAttributes } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
+import type { AxiosError } from 'axios';
 import { Calculator, Loader2, AlertCircle } from 'lucide-react';
 import { insuranceAPI } from '../services/api';
 import { validateCPF, onlyNumbers, calculateAge } from '../utils/formatters';
-import type { CalculationRequest, CalculationResponse } from '../types/api';
+import type { CalculationRequest, CalculationResponse, ApiError } from '../types/api';
 import ResultsDisplay from './ResultsDisplay';
 import InputMask from 'react-input-mask';
 import { toast } from 'sonner';
@@ -18,17 +20,17 @@ export default function InsuranceForm() {
     }
   });
 
-  const mutation = useMutation({
+  const mutation = useMutation<CalculationResponse, AxiosError<ApiError>, CalculationRequest>({
     mutationFn: insuranceAPI.calculatePremium,
     onSuccess: (data) => {
       setResult(data);
       toast.success('Cotação calculada com sucesso!');
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     },
-    onError: (error: any) => {
+    onError: (error) => {
       const apiError = error.response?.data;
       if (apiError?.fieldErrors) {
-        apiError.fieldErrors.forEach((err: any) => {
+        apiError.fieldErrors.forEach((err) => {
           toast.error(`${err.field}: ${err.message}`);
         });
       } else {
@@ -109,7 +111,7 @@ export default function InsuranceForm() {
                       validate: (value) => validateCPF(value) || 'CPF inválido'
                     })}
                   >
-                    {(inputProps: any) => (
+                    {(inputProps: InputHTMLAttributes<HTMLInputElement>) => (
                       <input
                         {...inputProps}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -183,7 +185,7 @@ export default function InsuranceForm() {
                       }
                     })}
                   >
-                    {(inputProps: any) => (
+                    {(inputProps: InputHTMLAttributes<HTMLInputElement>) => (
                       <input
                         {...inputProps}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -243,7 +245,7 @@ export default function InsuranceForm() {
                     mask="(99) 99999-9999"
                     {...register('driverPhone')}
                   >
-                    {(inputProps: any) => (
+                    {(inputProps: InputHTMLAttributes<HTMLInputElement>) => (
                       <input
                         {...inputProps}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -467,7 +469,7 @@ export default function InsuranceForm() {
                     }}
                     {...register('vehicleLicensePlate')}
                   >
-                    {(inputProps: any) => (
+                    {(inputProps: InputHTMLAttributes<HTMLInputElement>) => (
                       <input
                         {...inputProps}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent uppercase"
