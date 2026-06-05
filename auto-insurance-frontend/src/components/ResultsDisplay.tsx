@@ -21,13 +21,6 @@ export default function ResultsDisplay({ result }: ResultsDisplayProps) {
     { name: 'Fatores de Risco', value: result.totalPremium - result.basePremium, color: '#f59e0b' }
   ];
 
-  // Cor do badge de perfil de risco
-  const riskProfileColors = {
-    'BAIXO': 'bg-green-100 text-green-800 border-green-200',
-    'MÉDIO': 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    'ALTO': 'bg-red-100 text-red-800 border-red-200'
-  };
-
   return (
     <div className="space-y-6">
       {/* Header com Resumo */}

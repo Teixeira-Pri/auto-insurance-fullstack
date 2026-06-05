@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 export default function InsuranceForm() {
   const [result, setResult] = useState<CalculationResponse | null>(null);
   
-  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<CalculationRequest>({
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<CalculationRequest>({
     defaultValues: {
       driverClaimsHistory: 0,
     }
