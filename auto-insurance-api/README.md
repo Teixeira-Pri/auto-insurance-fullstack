@@ -209,6 +209,7 @@ open target/site/jacoco/index.html
 - Java 17+
 - Maven 3.8+
 - PostgreSQL 14+
+- Redis 6+
 
 ### 1. Configurar Banco de Dados
 ```sql
@@ -217,10 +218,19 @@ CREATE USER postgres WITH PASSWORD 'postgres';
 GRANT ALL PRIVILEGES ON DATABASE insurance_db TO postgres;
 ```
 
-### 2. Configurar Application Properties
-Edite `src/main/resources/application.properties` com suas credenciais do PostgreSQL.
+### 2. Iniciar Redis
+```bash
+# Via Docker
+docker run -d -p 6379:6379 redis:7-alpine
 
-### 3. Compilar e Executar
+# Ou localmente
+redis-server
+```
+
+### 3. Configurar Application Properties
+Edite `src/main/resources/application.properties` com suas credenciais do PostgreSQL e Redis.
+
+### 4. Compilar e Executar
 ```bash
 # Compilar
 mvn clean install
@@ -232,7 +242,7 @@ mvn spring-boot:run
 java -jar target/auto-insurance-api-1.0.0.jar
 ```
 
-### 4. Acessar Documentação Swagger
+### 5. Acessar Documentação Swagger
 ```
 http://localhost:8080/swagger-ui.html
 ```
@@ -279,8 +289,13 @@ auto-insurance-api/
 │   │   ├── java/com/insurance/auto/
 │   │   │   ├── AutoInsuranceApplication.java
 │   │   │   ├── config/
+│   │   │   │   ├── ClockConfig.java          # Bean Clock para testes determinísticos
+│   │   │   │   ├── MetricsConfig.java         # Tags comuns Micrometer
 │   │   │   │   ├── OpenApiConfig.java
-│   │   │   │   └── CacheConfig.java
+│   │   │   │   ├── RateLimitInterceptor.java  # Bucket4j token bucket
+│   │   │   │   ├── RedisCacheConfig.java      # Cache Redis + TTL 24h
+│   │   │   │   ├── RestTemplateConfig.java    # RestTemplate com timeouts
+│   │   │   │   └── WebConfig.java             # Registra interceptors
 │   │   │   ├── controller/
 │   │   │   │   └── InsuranceCalculationController.java
 │   │   │   ├── dto/
@@ -294,16 +309,16 @@ auto-insurance-api/
 │   │   │   │   ├── Driver.java
 │   │   │   │   └── Vehicle.java
 │   │   │   ├── enums/
-│   │   │   │   ├── Gender.java
 │   │   │   │   ├── BrazilianState.java
 │   │   │   │   ├── FuelType.java
+│   │   │   │   ├── Gender.java
 │   │   │   │   ├── VehicleCategory.java
 │   │   │   │   └── VehicleCondition.java
 │   │   │   ├── exception/
-│   │   │   │   ├── GlobalExceptionHandler.java
-│   │   │   │   ├── ErrorResponse.java
-│   │   │   │   ├── ValidationErrorResponse.java
 │   │   │   │   ├── BusinessException.java
+│   │   │   │   ├── ErrorResponse.java
+│   │   │   │   ├── GlobalExceptionHandler.java
+│   │   │   │   ├── ValidationErrorResponse.java
 │   │   │   │   └── ViaCepException.java
 │   │   │   ├── repository/
 │   │   │   │   ├── DriverRepository.java
@@ -315,8 +330,8 @@ auto-insurance-api/
 │   │   │   ├── util/
 │   │   │   │   └── RiskCalculator.java
 │   │   │   ├── validation/
-│   │   │   │   ├── ValidCpf.java
-│   │   │   │   └── CpfValidator.java
+│   │   │   │   ├── CpfValidator.java
+│   │   │   │   └── ValidCpf.java
 │   │   │   └── client/
 │   │   │       └── ViaCepClient.java
 │   │   └── resources/

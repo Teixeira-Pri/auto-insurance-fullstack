@@ -32,28 +32,68 @@ API REST enterprise de cálculo de prêmio de seguro automotivo com frontend Rea
 | Cache hit rate | 0% | 80% | **∞** |
 | Proteção DDoS | ❌ | ✅ 100 req/min | **∞** |
 
+## 🔧 Pré-requisitos
+
+| Ferramenta | Versão mínima |
+|------------|---------------|
+| Java | 17 |
+| Maven | 3.8 |
+| Node.js | 18 |
+| PostgreSQL | 14 |
+| Redis | 6 |
+
 ## 🚀 Como Executar
 
-### Backend
+### 1. PostgreSQL
+
+```sql
+CREATE DATABASE insurance_db;
+-- Credenciais padrão: usuário 'postgres', senha 'postgres'
+-- Ajuste em: auto-insurance-api/src/main/resources/application.properties
+```
+
+### 2. Redis
+
+```bash
+# Via Docker (mais simples)
+docker run -d -p 6379:6379 redis:7-alpine
+
+# Ou instale localmente e execute: redis-server
+```
+
+### 3. Backend
+
 ```bash
 cd auto-insurance-api
+
+# Testes não precisam de PostgreSQL nem Redis (usam H2 in-memory)
+mvn test
+
+# Iniciar servidor na porta 8080
 mvn spring-boot:run
 ```
 
-### Frontend
+### 4. Frontend
+
 ```bash
 cd auto-insurance-frontend
 npm install
+
+# Servidor de desenvolvimento (porta 3000, faz proxy para :8080)
 npm run dev
+
+# Build de produção
+npm run build
 ```
 
 ## 🔗 Acessos
 
 | Recurso | URL |
 |---------|-----|
-| Frontend | http://localhost:3001 |
+| Frontend | http://localhost:3000 |
 | API | http://localhost:8080 |
 | Swagger | http://localhost:8080/swagger-ui.html |
+| Health | http://localhost:8080/actuator/health |
 | Métricas | http://localhost:8080/actuator/prometheus |
 
 ## 🧮 Como Funciona o Cálculo

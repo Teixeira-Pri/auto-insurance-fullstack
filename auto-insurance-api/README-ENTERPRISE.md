@@ -168,8 +168,20 @@ void shouldCalculateRiskFor25YearOld() {
 ## 🚀 Quick Start
 
 ### 1. Subir Infraestrutura
+
 ```bash
-docker-compose up -d
+# PostgreSQL
+# Crie o banco: CREATE DATABASE insurance_db;
+
+# Redis (obrigatório para cache)
+docker run -d -p 6379:6379 redis:7-alpine
+
+# Zipkin (opcional — para distributed tracing)
+docker run -d -p 9411:9411 openzipkin/zipkin
+
+# Prometheus + Grafana (opcional — para dashboards de métricas)
+# Grafana: use uma porta diferente de 3000 (o frontend React usa :3000)
+# Exemplo: docker run -d -p 3001:3000 grafana/grafana
 ```
 
 ### 2. Compilar e Executar
@@ -186,7 +198,7 @@ mvn spring-boot:run
 | Health Check | http://localhost:8080/actuator/health |
 | Métricas | http://localhost:8080/actuator/prometheus |
 | Zipkin | http://localhost:9411 |
-| Grafana | http://localhost:3000 |
+| Grafana | http://localhost:3001 (se configurado) |
 
 ---
 
@@ -250,9 +262,7 @@ done
 
 ## 📚 Documentação Adicional
 
-- [Deployment Guide](DEPLOYMENT.md) - Guia completo de deployment
-- [API Documentation](http://localhost:8080/swagger-ui.html) - Swagger interativo
-- [Architecture Diagram](docs/architecture.png) - Diagrama de arquitetura
+- [API Documentation](http://localhost:8080/swagger-ui.html) - Swagger interativo (com servidor rodando)
 
 ---
 
